@@ -9,14 +9,19 @@ public class HumanPlayer extends Player{
 	
 	public void play(){
 		int i=0,j=0;
+		for(i=0;i<3;i++){
+			for(j=0;j<3;j++){
+				gameBoard.getButtons()[i][j].toggle(false);
+			}
+		}
 		boolean flag = false;
 		while(true){
 			for(i=0;i<3;i++){
 				for(j=0;j<3;j++){
-					if(super.gameBoard.getButtons()[i][j].isActive()){
-						super.gameBoard.getButtons()[i][j].toggle(false);
-						if(!super.gameBoard.getButtons()[i][j].getState().equals("EMPTY")){
-							this.script.playLine(10);
+					if(gameBoard.getButtons()[i][j].isActive()){
+						gameBoard.getButtons()[i][j].toggle(false);
+						if(!gameBoard.getButtons()[i][j].getState().equals("EMPTY")){
+							script.playLine(10);
 						}else{
 							flag = true;
 							break;
@@ -32,12 +37,12 @@ public class HumanPlayer extends Player{
 			}
 		}//while
 		
-		super.gameBoard.getButtons()[i][j].setState(super.symbol);
-		super.gameBoard.getButtons()[i][j].setText(super.symbol);
+		gameBoard.getButtons()[i][j].setState(symbol);
+		gameBoard.getButtons()[i][j].setText(symbol);
 		gameBoard.updateState(i,j);
 		for(i=0;i<3;i++){
 			for(j=0;j<3;j++){
-				super.gameBoard.getButtons()[i][j].toggle(false);
+				gameBoard.getButtons()[i][j].toggle(false);
 			}
 		}
 	}

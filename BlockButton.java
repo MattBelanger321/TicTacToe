@@ -6,28 +6,29 @@ class BlockButton extends JButton implements ActionListener{
 	private boolean isActivated;
 	private String state;
 	public BlockButton(){
-		this.isActivated = false;
-		this.addActionListener(this);
+		isActivated = false;
+		addActionListener(this);
 		this.state = "EMPTY";
 	}
 	public String getState(){
-		return this.state;
+		return state;
 	}
 	
 	public void setState(String state){
 		this.state = state;
+		setText(state.equals("EMPTY")?"":state);
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		this.isActivated = true;
+		isActivated = true;
 	}
 	
 	public boolean isActive(){
-		return this.isActivated;
+		return isActivated;
 	}
 	
 	public void toggle(boolean newState){
-		this.isActivated = newState;
+		isActivated = newState;
 	}
 	
 }

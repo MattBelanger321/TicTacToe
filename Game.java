@@ -6,28 +6,29 @@ public class Game{
 	private Player X;
 	private Player O;
 	private boolean isX;
+
 	public Game(){
-		this.gameBoard = new GameBoard();
-		this.script = new TTTScript();
+		gameBoard = new GameBoard();
+		script = new TTTScript();
 		
 		if(coinToss()){
-			this.X = new HumanPlayer("YOU","X",this.gameBoard);
-			this.O = new AIPlayer("O",this.gameBoard);
-			this.isX = true;
+			X = new HumanPlayer("YOU","X",gameBoard);
+			O = new AIPlayer("O",gameBoard);
+			isX = true;
 			rollScript(7);
 		}else{
-			this.X = new AIPlayer("X",this.gameBoard);
-			this.O = new HumanPlayer("YOU","O",this.gameBoard);
-			this.isX = false;
+			X = new AIPlayer("X",gameBoard);
+			O = new HumanPlayer("YOU","O",this.gameBoard);
+			isX = false;
 			rollScript(8);
 		}
 	}
 	
 	public void rollScript(int index) {
-		this.gameBoard.setMessage(this.script.playLine(index)+this.script.playLine(17));
+		gameBoard.setMessage(script.playLine(index)+script.playLine(18));
 		//HOLDS PROGRAM UNTIL OK IS HIT
 		while(true) {
-			if (this.gameBoard.getMenu().getText().equals("")) {
+			if (gameBoard.getMessage().equals("")) {
 				return;
 			}
 		}
@@ -36,24 +37,26 @@ public class Game{
 	public void start(){
 		for(int i = 0;i<9;i++){
 			if(i%2==0){
-				this.script.playLine(9);
-				this.X.play();
+				//gameBoard.setMessage(isX?script.playLine(9):script.playLine(10));//"YOUR TURN" IF HUMAN IS X "AI'S TURN" OTHERWISE
+				rollScript(!isX?10:9);
+				X.play();
 			}else{
-				this.script.playLine(17);
-				this.O.play();
+				//gameBoard.setMessage(isX?script.playLine(10):script.playLine(9));//"YOUR TURN" IF HUMAN IS O "AI'S TURN" OTHERWISE
+				rollScript(isX?10:9);
+				O.play();
 			}
 			if(!this.gameBoard.getState().equals("EMPTY")){
 				break;
 			}
 		}
-		if(this.gameBoard.getState().equals("EMPTY")){
-			rollScript(11);
-		}else if(this.gameBoard.getState().equals("X")){
+		if(gameBoard.getState().equals("EMPTY")){
 			rollScript(12);
-			rollScript(this.isX?14:15);
+		}else if(gameBoard.getState().equals("X")){
+			rollScript(13);
+			rollScript(isX?15:16);
 		}else{
 			rollScript(13);
-			rollScript(this.isX?15:14);
+			rollScript(isX?15:14);
 		}
 	}
 	
@@ -65,25 +68,25 @@ public class Game{
 		for(int i = 0;i<=2;i++) {
 			rollScript(i);
 		}
-		this.gameBoard.getButtons()[0][0].setText("HEADS");
-		this.gameBoard.getButtons()[0][1].setText("TAILS");
+		gameBoard.getButtons()[0][0].setText("HEADS");
+		gameBoard.getButtons()[0][1].setText("TAILS");
 		while(true){
 			if(this.gameBoard.getButtons()[0][0].isActive()){
 				heads = true;
-				this.gameBoard.getButtons()[0][0].toggle(false);
+				gameBoard.getButtons()[0][0].toggle(false);
 				rollScript(3);
 				break;
 			}else if(this.gameBoard.getButtons()[0][1].isActive()){
 				heads = false;
-				this.gameBoard.getButtons()[0][1].toggle(false);
+				gameBoard.getButtons()[0][1].toggle(false);
 				rollScript(4);
 				break;
 			}else{
 				System.out.println();
 			}
 		}
-		this.gameBoard.getButtons()[0][0].setText("");
-		this.gameBoard.getButtons()[0][1].setText("");
+		gameBoard.getButtons()[0][0].setText("");
+		gameBoard.getButtons()[0][1].setText("");
 		
 		if(Math.floor(Math.random()*10)%2 == 0){
 			if(heads){

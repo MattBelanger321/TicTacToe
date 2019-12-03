@@ -3,13 +3,14 @@ abstract class Player{
 	protected String name;
 	protected GameBoard gameBoard;
 	protected TTTScript script;
-	public abstract void play();
+
+	public abstract void play();//Allows player to make move
 	
 	public String getName(){
-		return this.name;
+		return name;
 	}
 	
 	public String getSymbol(){
-		return this.symbol;
+		return symbol;
 	}
 }
